@@ -16,6 +16,13 @@
 #   atm teams add-member insanity loco         --agent-type dev  --model gpt-6-luna  --home-dir "$HOME/github/insanity" --backend herdr --alias loco
 #   atm teams add-member insanity sane-quality --agent-type qa   --model sonnet      --home-dir "$HOME/github/insanity" --backend herdr --alias sane-quality
 #
+# IMPORTANT: add-member records harness=claude-code for EVERY member, including
+# codex agents. After provisioning, correct the codex members or the roster lies
+# about the harness (and any tool that trusts it will be wrong):
+#   atm teams update-member insanity spectr  --harness codex-cli
+#   atm teams update-member insanity loco --harness codex-cli
+# update-member is team-scoped: only a member of the team can run it.
+
 # Launch: hmux (reads this file). Panes must be started with the ATM_* env below
 # or no nudge ever reaches them.
 
