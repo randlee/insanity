@@ -1,0 +1,78 @@
+# ATM team configuration for insanity.
+#
+# Team:    insanity
+# Prefix:  sane- (lead and quality), bare names for the two codex developers.
+# Model pins are the exact strings the CLIs accept:
+#   opus / sonnet = claude aliases
+#   gpt-6.1-sol   = codex sol   (6.1 exists for sol)
+#   gpt-6-luna    = codex luna  (6.1-luna is REJECTED by the API)
+#
+# Provision the roster once (add-member creates the team if it does not exist).
+# The alias is mandatory: herdr agent names must be unique across the machine,
+# so each member's alias equals its name here.
+#
+#   atm teams add-member insanity sane-lead    --agent-type lead --model opus        --home-dir "$HOME/github/insanity" --backend herdr --alias sane-lead
+#   atm teams add-member insanity spectr       --agent-type dev  --model gpt-6.1-sol --home-dir "$HOME/github/insanity" --backend herdr --alias spectr
+#   atm teams add-member insanity loco         --agent-type dev  --model gpt-6-luna  --home-dir "$HOME/github/insanity" --backend herdr --alias loco
+#   atm teams add-member insanity sane-quality --agent-type qa   --model sonnet      --home-dir "$HOME/github/insanity" --backend herdr --alias sane-quality
+#
+# IMPORTANT: add-member records harness=claude-code for EVERY member, including
+# codex agents. After provisioning, correct the codex members or the roster lies
+# about the harness (and any tool that trusts it will be wrong):
+#   atm teams update-member insanity spectr  --harness codex-cli
+#   atm teams update-member insanity loco --harness codex-cli
+# update-member is team-scoped: only a member of the team can run it.
+
+# Launch: hmux (reads this file). Panes must be started with the ATM_* env below
+# or no nudge ever reaches them.
+
+[atm]
+default_team = "insanity"
+
+[rmux]
+session = "insanity"
+
+[[rmux.windows]]
+name = "main"
+layout = "even-horizontal"
+
+[[rmux.windows.panes]]
+name = "sane-lead"
+alias = "sane-lead"
+model = "opus"
+dir = "/Users/randlee/github/insanity"
+env = { ATM_IDENTITY = "sane-lead", ATM_TEAM = "insanity", CLAUDE_CODE_TASK_LIST_ID = "insanity" }
+
+[[rmux.windows.panes]]
+name = "spectr"
+alias = "spectr"
+command = "codex --no-daemon -c features.hooks=true --model gpt-6.1-sol --yolo"
+dir = "/Users/randlee/github/insanity"
+env = { ATM_IDENTITY = "spectr", ATM_TEAM = "insanity", CLAUDE_CODE_TASK_LIST_ID = "insanity" }
+
+[[rmux.windows]]
+name = "quality"
+layout = "even-horizontal"
+
+[[rmux.windows.panes]]
+name = "loco"
+alias = "loco"
+command = "codex --no-daemon -c features.hooks=true --model gpt-6-luna --yolo"
+dir = "/Users/randlee/github/insanity"
+env = { ATM_IDENTITY = "loco", ATM_TEAM = "insanity", CLAUDE_CODE_TASK_LIST_ID = "insanity" }
+
+[[rmux.windows.panes]]
+name = "sane-quality"
+alias = "sane-quality"
+model = "sonnet"
+dir = "/Users/randlee/github/insanity"
+env = { ATM_IDENTITY = "sane-quality", ATM_TEAM = "insanity", CLAUDE_CODE_TASK_LIST_ID = "insanity" }
+
+[[rmux.windows]]
+name = "terminal"
+layout = "even-horizontal"
+
+[[rmux.windows.panes]]
+name = "terminal"
+command = ""
+dir = "/Users/randlee/github/insanity"
